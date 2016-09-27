@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head />
+<h:body>
+	<ui:composition template="/templates/common-layout.xhtml">
+		<ui:define name="head">
+			<title>Profile</title>
+		</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<h:panelGrid columns="2">
+					<p:commandLink value="#{profileBean.user.name}"
+						action="#{userWallBean.viewUser(profileBean.user)}" />
+					<p />
+
+					<p:outputLabel for="name" value="Name:" />
+					<p:outputLabel id="name" value="#{profileBean.user.name}" />
+					<p:outputLabel for="password" value="Password:" />
+					<h:outputText id="password" value="#{profileBean.user.password}" />
+					<p:outputLabel for="email" value="Email Address:" />
+					<h:outputText id="email" value="#{profileBean.user.email}" />
+					<p:outputLabel for="firstName" value="First Name:" />
+					<h:outputText id="firstName" value="#{profileBean.user.firstName}" />
+					<p:outputLabel for="lastName" value="Last Name:" />
+					<h:outputText id="lastName" value="#{profileBean.user.lastName}" />
+				</h:panelGrid>
+
+				<h:panelGrid id="friendRequests" title="Friend Requests">
+					<p:panel>
+						<ui:repeat var="follower" value="#{profileBean.friendships}">
+							<p />
+							<h:panelGrid id="userGrid" columns="2" >
+								<p:panel 
+									rendered="#{profileBean.userIdEqualsFriendId(follower)}">
+									<p:commandLink value="#{follower.userByUserId.name}"
+										action="#{userWallBean.viewUser(follower.userByUserId)}" />
+									<p:commandButton
+										rendered="#{!follower.isApproved}"
+										action="#{userWallBean.acceptRequest(follower.userByUserId)}"
+										process="@form" update="@form" value="Accept Request" />
+									<p:commandButton
+										rendered="#{!follower.isApproved}"
+										action="#{userWallBean.reject(follower.userByUserId)}"
+										process="@form" update="@form" value="Reject Request" />
+									<p:commandButton rendered="#{follower.isApproved}"
+										action="#{userWallBean.unfriend(follower.userByUserId)}"
+										process="@form" update="@form" value="Delete Friend" />
+								</p:panel>
+								<p:panel
+									rendered="#{!profileBean.userIdEqualsFriendId(follower)}">
+									<p:commandLink value="#{follower.userByFriendId.name}"
+										action="#{userWallBean.viewUser(follower.userByFriendId)}" />
+									<p:commandButton rendered="#{follower.isApproved}"
+										action="#{userWallBean.unfriend(follower.userByFriendId)}"
+										process="@form" update="@form" value="Delete Friend" />
+									<p:commandButton rendered="#{!follower.isApproved}"
+										action="#{userWallBean.unfriend(follower.userByFriendId)}"
+										process="@form" update="@form" value="Cancel Request" />
+								</p:panel>
+							</h:panelGrid>
+						</ui:repeat>
+					</p:panel>
+				</h:panelGrid>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

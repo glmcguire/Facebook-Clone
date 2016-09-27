@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head />
+<h:body>
+	<ui:composition template="/templates/common-layout.xhtml">
+		<ui:define name="head">
+			<title>Tweets</title>
+		</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<ui:repeat value="#{tweetListBean.rootTweets}" var="tweet">
+					<p:fieldset style="margin-bottom:20px">
+						<h:panelGrid columns="4" columnClasses="label, value">
+							<p:commandLink value="#{tweet.user.person.firstName} #{tweet.user.person.lastName}"
+								action="#{navBean.users()}" />
+							<h:outputText value="@#{tweet.user.name}" />
+							-
+							<h:outputText value="#{tweet.lastUpdate}"
+								styleClass="outputLabel">
+								<f:convertDateTime pattern="MMM dd" />
+							</h:outputText>
+						</h:panelGrid>
+						<h:outputText value="#{tweet.tweet}" styleClass="outputLabel" />
+					</p:fieldset>
+				</ui:repeat>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

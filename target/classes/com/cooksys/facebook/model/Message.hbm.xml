@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 29, 2015 12:10:16 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooksys.facebook.model.Message" table="message" catalog="facebook" optimistic-lock="version">
+        <id name="messageId" type="java.lang.Integer">
+            <column name="message_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="user" class="com.cooksys.facebook.model.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <property name="message" type="string">
+            <column name="message" length="4000" not-null="true" />
+        </property>
+        <property name="attachment" type="string">
+            <column name="attachment" length="512" />
+        </property>
+        <property name="isRoot" type="boolean">
+            <column name="is_root" not-null="true" />
+        </property>
+        <property name="isChat" type="java.lang.Boolean">
+            <column name="is_chat" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+        <set name="responsesForMessageId" table="response" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="message_id" not-null="true" />
+            </key>
+            <one-to-many class="com.cooksys.facebook.model.Response" />
+        </set>
+        <set name="responsesForRootId" table="response" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="root_id" not-null="true" />
+            </key>
+            <one-to-many class="com.cooksys.facebook.model.Response" />
+        </set>
+        <set name="tags" table="tag" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="message_id" not-null="true" />
+            </key>
+            <one-to-many class="com.cooksys.facebook.model.Tag" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head />
+<h:body>
+	<ui:composition template="/templates/common-layout.xhtml">
+		<ui:define name="head">
+			<title>Registration</title>
+		</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<p:growl id="growl" sticky="true" showDetail="true" />
+				<p:wizard flowListener="#{registrationBean.onFlowProcess}">
+					<p:tab id="userinfo" title="User">
+						<p:panel header="User Details">
+							<h:panelGrid columns="3" columnClasses="label, value">
+								<p:outputLabel for="email" value="Email:" />
+								<p:inputText id="email" required="true"
+									requiredMessage="Please enter your email address."
+									value="#{registrationBean.user.email}">
+									<f:validator binding="#{emailValidator}" />
+								</p:inputText>
+								<p:message for="email" />
+
+								<p:outputLabel for="password" value="Password:" />
+								<p:password id="password"
+									value="#{registrationBean.user.password}" required="true" />
+								<p:message for="password" />
+
+								<p:outputLabel for="firstname" value="First Name:" />
+								<p:inputText id="firstname"
+									value="#{registrationBean.user.firstName}" required="true"
+									label="firstname" />
+								<p:message for="firstname" />
+
+								<p:outputLabel for="lastname" value="Last Name:" />
+								<p:inputText id="lastname"
+									value="#{registrationBean.user.lastName}" required="true"
+									label="lastname" />
+								<p:message for="lastname" />
+
+								<h:outputText value="Skip to last:" />
+								<h:selectBooleanCheckbox value="#{registrationBean.skip}" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="address" title="Address">
+						<p:panel header="Address Details">
+							<h:panelGrid columns="2" columnClasses="label, value">
+								<p:outputLabel for="city" value="City" />
+								<p:inputText id="city" value="#{registrationBean.user.city}" />
+								<p:outputLabel for="state" value="State" />
+								<p:inputText id="state" value="#{registrationBean.user.state}" />
+								<p:outputLabel for="school" value="School" />
+								<p:inputText id="school" value="#{registrationBean.user.school}" />
+								<p:outputLabel for="status" value="Relationship Status" />
+								<p:inputText id="status"
+									value="#{registrationBean.user.relationshipStatus}" />
+								<h:outputText value="Private Profile: " />
+								<p:inputSwitch value="#{registrationBean.user.isPrivate}" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="confirm" title="Confirmation">
+						<p:panel header="Confirmation">
+							<h:panelGrid id="confirmation" columns="2"
+								columnClasses="grid,grid,grid">
+								<h:panelGrid columns="2" columnClasses="label, value">
+									<h:outputText value="email: *" />
+									<h:outputText value="#{registrationBean.user.email}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="First Name: *" />
+									<h:outputText value="#{registrationBean.user.firstName}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Last Name: *" />
+									<h:outputText value="#{registrationBean.user.lastName}"
+										styleClass="outputLabel" />
+								</h:panelGrid>
+
+								<h:panelGrid columns="2" columnClasses="label, value">
+									<h:outputText value="City: " />
+									<h:outputText value="#{registrationBean.user.city}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="State: " />
+									<h:outputText value="#{registrationBean.user.state}"
+										styleClass="outputLabel" />
+								</h:panelGrid>
+								
+								<h:panelGrid columns="2" columnClasses="label, value">
+									<h:outputText value="School: " />
+									<h:outputText value="#{registrationBean.user.school}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="Relationship: " />
+									<h:outputText value="#{registrationBean.user.relationshipStatus}"
+										styleClass="outputLabel" />
+								</h:panelGrid>
+							</h:panelGrid>
+
+							<p:commandButton value="Submit"
+								action="#{registrationBean.register()}" validateClient="true"
+								process="@form" update="@form" />
+
+						</p:panel>
+					</p:tab>
+				</p:wizard>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

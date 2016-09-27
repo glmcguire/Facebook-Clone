@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 29, 2015 12:10:16 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooksys.facebook.model.GroupUser" table="group_user" catalog="facebook" optimistic-lock="version">
+        <id name="groupUserId" type="java.lang.Integer">
+            <column name="group_user_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="group" class="com.cooksys.facebook.model.Group" fetch="select">
+            <column name="group_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="com.cooksys.facebook.model.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <property name="isApproved" type="boolean">
+            <column name="is_approved" not-null="true" />
+        </property>
+        <property name="isLeader" type="boolean">
+            <column name="is_leader" not-null="true" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

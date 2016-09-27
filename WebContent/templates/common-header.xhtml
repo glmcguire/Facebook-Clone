@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head />
+<h:body>
+    <ui:composition>
+        <h:form>
+            <p:toolbar>
+                <f:facet name="left">
+                    <p:panelGrid columns="5">
+                        <p:panel rendered="#{authenticationBean.loggedIn}">
+                            <p:commandLink value="View Your Wall"
+                                action="#{userWallBean.viewUser(authenticationBean.user)}" />
+                        </p:panel>
+                        <p:outputLabel value="Search: " />
+                        <p:selectOneMenu id="search" value="#{navBean.searchType}"
+                            style="width:125px">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItem itemLabel="User" itemValue="User" />
+                            <f:selectItem itemLabel="Group" itemValue="Group" />
+                        </p:selectOneMenu>
+                        <p:inputText id="searchString" value="#{navBean.searchString}" />
+                        <p:commandButton action="#{navBean.searchFromHeader()}"
+                            value="Search" />
+                    </p:panelGrid>
+                </f:facet>
+                <f:facet name="right">
+                    <p:panel rendered="#{authenticationBean.loggedIn}">
+                        <h:outputText value="Welcome, " />
+                        <p:commandLink value="#{authenticationBean.user.email}"
+                            action="#{navBean.profile()}" />
+                        <p:commandButton action="#{authenticationBean.logout()}"
+                            value="Logout" />
+                    </p:panel>
+
+                    <p:panel rendered="#{!authenticationBean.loggedIn}">
+                        <p:commandButton action="#{navBean.login()}" value="Login" />
+                        <p:commandButton action="#{navBean.register()}" value="Register" />
+                    </p:panel>
+                </f:facet>
+            </p:toolbar>
+        </h:form>
+    </ui:composition>
+</h:body>
+</html>

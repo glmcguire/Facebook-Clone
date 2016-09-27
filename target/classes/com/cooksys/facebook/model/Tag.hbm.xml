@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 29, 2015 12:10:16 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooksys.facebook.model.Tag" table="tag" catalog="facebook" optimistic-lock="version">
+        <id name="tagId" type="java.lang.Integer">
+            <column name="tag_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="message" class="com.cooksys.facebook.model.Message" fetch="select">
+            <column name="message_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="user" class="com.cooksys.facebook.model.User" fetch="select">
+            <column name="user_id" />
+        </many-to-one>
+        <property name="groupId" type="java.lang.Integer">
+            <column name="group_id" />
+        </property>
+    </class>
+</hibernate-mapping>

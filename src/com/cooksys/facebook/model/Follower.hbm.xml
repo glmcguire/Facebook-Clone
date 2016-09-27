@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 29, 2015 12:10:16 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooksys.facebook.model.Follower" table="follower" catalog="facebook" optimistic-lock="version">
+        <id name="followerId" type="java.lang.Integer">
+            <column name="follower_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="userByFriendId" class="com.cooksys.facebook.model.User" fetch="select">
+            <column name="friend_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="userByUserId" class="com.cooksys.facebook.model.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <property name="isApproved" type="boolean">
+            <column name="is_approved" not-null="true" />
+        </property>
+        <property name="isBlacklisted" type="boolean">
+            <column name="is_blacklisted" not-null="true" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head />
+<h:body>
+	<ui:composition>
+		<h:form>
+			<p:toolbar rendered="#{authenticationBean.loggedIn}">
+				<f:facet name="left" style="width:400;">
+
+					<h:outputText value="#{profileBean.user.name}'s Friends: " />
+					<p />
+					<ui:repeat value="#{profileBean.friendships}" var="follower">
+						<p:panel rendered="#{profileBean.userIdEqualsFriendId(follower)}">
+							<p:commandLink value="#{follower.userByUserId.name}"
+								action="#{userWallBean.viewUser(follower.userByUserId)}" />
+						</p:panel>
+						<p:panel rendered="#{!profileBean.userIdEqualsFriendId(follower)}">
+							<p:commandLink value="#{follower.userByFriendId.name}"
+								action="#{userWallBean.viewUser(follower.userByFriendId)}" />
+						</p:panel>
+					</ui:repeat>
+					<p />
+					<h:outputText value="#{profileBean.user.name}'s Groups: " />
+					<p />
+					<ui:repeat value="#{profileBean.memberships}" var="group">
+						<p:panel>
+							<p:commandLink value="#{group.name}"
+								action="#{groupWallBean.viewGroup(group)}" />
+						</p:panel>
+					</ui:repeat>
+				</f:facet>
+			</p:toolbar>
+		</h:form>
+	</ui:composition>
+</h:body>
+</html>

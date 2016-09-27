@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head />
+<h:body>
+	<ui:composition template="/templates/common-layout.xhtml">
+		<ui:define name="head">
+			<title>Facebook</title>
+		</ui:define>
+		<ui:define name="main">
+			<p:panel style="width:800px;display:block;">
+				<h:form id="topform" style="margin-bottom:10px;">
+					<f:facet name="title">
+						<h3>#{userWallBean.user.name}</h3>
+					</f:facet>
+
+					<!-- 					Show this panel when logged in and when viewing your own wall -->
+					<p:panel rendered="#{userWallBean.showMessagePanel()}">
+						<f:facet name="header">
+							<h:outputText value="Post New Message: " />
+						</f:facet>
+						<p:inputTextarea rows="5" cols="30" counter="display"
+							style="width: 100%;" value="#{messageBean.message.message}"
+							maxlength="140" counterTemplate="{0} characters remaining."
+							autoResize="false" />
+						<h:outputText id="display" />
+						<p />
+						<p:outputLabel for="tags" value="Tags:" />
+						<p:inputText id="tags" value="#{messageBean.tags}" label="tags"
+							style="width: 100%;" />
+						<f:facet name="footer">
+							<p:commandButton action="#{messageBean.postNewMessage()}"
+								process="@form" update="@all" value="Post Message" />
+						</f:facet>
+					</p:panel>
+
+					<!-- 					Show this panel when logged in, when not viewing your own wall, and when not already friends -->
+					<p:panel rendered="#{userWallBean.showBefriend()}">
+						<p:outputLabel
+							value="Send friend request to: #{userWallBean.user.name} " />
+						<p:commandButton
+							action="#{userWallBean.befriend(userWallBean.user)}"
+							process="@form" update="@all" value="Befriend" />
+					</p:panel>
+
+					<!-- 					Show this panel when logged in, when not viewing your own wall, and when friendship request is pending -->
+					<p:panel rendered="#{userWallBean.showCancelRequest()}">
+						<p:outputLabel
+							value="Cancel friend request to: #{userWallBean.user.name} " />
+						<p:commandButton
+							action="#{userWallBean.reject(userWallBean.user)}"
+							process="@form" update="@all" value="Cancel Request" />
+					</p:panel>
+
+					<!-- 					Show this panel when logged in, when not viewing your own wall, and when already friends -->
+					<p:panel rendered="#{userWallBean.showUnfriend()}">
+						<p:outputLabel
+							value="Delete friendship with: #{userWallBean.user.name} " />
+						<p:commandButton
+							action="#{userWallBean.unfollow(userWallBean.user)}"
+							process="@form" update="@all" value="Remove Friend" />
+					</p:panel>
+				</h:form>
+
+				<!-- 						List all users messages, and messages where user is tagged -->
+				<h:form id="messages">
+					<ui:repeat value="#{userWallBean.usersMessages}" var="message">
+						<p:fieldset style="margin-bottom:10px">
+							<h:panelGrid columns="3">
+								<p:commandLink value="#{message.user.name}"
+									action="#{userWallBean.viewUser(message.user)}" />
+								-
+								<h:outputText value="#{message.lastUpdate}"
+									styleClass="outputLabel">
+									<f:convertDateTime pattern="MMM dd, yyyy" />
+								</h:outputText>
+							</h:panelGrid>
+							<h:outputText value="#{message.message}" styleClass="outputLabel" />
+						</p:fieldset>
+					</ui:repeat>
+				</h:form>
+
+				<h:form id="friends">
+					<p />
+					<h:outputText value="#{userWallBean.user.name}'s friends: " />
+					<p />
+					<ui:repeat value="#{userWallBean.usersFriends}" var="follower">
+						<p:fieldset style="margin-bottom:10px">
+							<p:panel
+								rendered="#{userWallBean.userIdEqualsFriendId(follower)}">
+								<p:commandLink value="#{follower.userByUserId.name}"
+									action="#{userWallBean.viewUser(follower.userByUserId)}" />
+							</p:panel>
+							<p:panel
+								rendered="#{!userWallBean.userIdEqualsFriendId(follower)}">
+								<p:commandLink value="#{follower.userByFriendId.name}"
+									action="#{userWallBean.viewUser(follower.userByFriendId)}" />
+							</p:panel>
+						</p:fieldset>
+					</ui:repeat>
+				</h:form>
+			</p:panel>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

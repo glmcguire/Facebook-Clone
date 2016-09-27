@@ -1,0 +1,42 @@
+New tasks!
+	ignore/blacklist users add/remove
+	Rest Service for mobile app team
+
+Left Panel
+	Auth User's Groups
+		Group Members
+	
+Tagging
+	Comma delimited list of Tags
+	
+Groups
+	Auth Group Leader
+
+
+Searching
+
+
+
+
+Post Sorting
+Post Navigation
+
+
+
+
+
+	private String name;
+
+	public String getName() {
+		return this.firstName + " " + this.lastName;
+	}
+
+	public Follower(User userByFriendId, User userByUserId) {
+		this.userByFriendId = userByFriendId;
+		this.userByUserId = userByUserId;
+	}
+
+	public GroupUser(Group group, User user) {
+		this.group = group;
+		this.user = user;
+	}

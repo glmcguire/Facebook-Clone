@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head />
+<h:body>
+	<ui:composition template="/templates/common-layout.xhtml">
+		<ui:define name="head">
+			<title>Facebook Wall</title>
+		</ui:define>
+		<ui:define name="main">
+			<h:form>
+				<ui:repeat value="#{userWallBean.usersMessages}" var="message">
+					<p:fieldset style="margin-bottom:20px">
+						<h:panelGrid columns="4" columnClasses="label, value">
+							<p:commandLink value="#{message.user.name}"
+								action="#{userWallBean.viewUser(message.user)}" />
+							-
+							<h:outputText value="#{message.lastUpdate}"
+								styleClass="outputLabel">
+								<f:convertDateTime pattern="MMM dd, yyyy" />
+							</h:outputText>
+						</h:panelGrid>
+						<h:outputText value="#{message.message}" styleClass="outputLabel" />
+					</p:fieldset>
+				</ui:repeat>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

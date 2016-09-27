@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 29, 2015 12:10:16 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cooksys.facebook.model.User" table="user" catalog="facebook" optimistic-lock="version">
+        <id name="userId" type="java.lang.Integer">
+            <column name="user_id" />
+            <generator class="identity" />
+        </id>
+        <property name="email" type="string">
+            <column name="email" length="128" not-null="true" unique="true" />
+        </property>
+        <property name="firstName" type="string">
+            <column name="first_name" length="45" not-null="true" />
+        </property>
+        <property name="lastName" type="string">
+            <column name="last_name" length="45" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="72" not-null="true" />
+        </property>
+        <property name="salt" type="string">
+            <column name="salt" length="45" />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="45" />
+        </property>
+        <property name="state" type="string">
+            <column name="state" length="45" />
+        </property>
+        <property name="isPrivate" type="java.lang.Boolean">
+            <column name="is_private" />
+        </property>
+        <property name="school" type="string">
+            <column name="school" length="45" />
+        </property>
+        <property name="relationshipStatus" type="string">
+            <column name="relationship_status" length="45" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+        <set name="followersForFriendId" table="follower" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="friend_id" not-null="true" />
+            </key>
+            <one-to-many class="com.cooksys.facebook.model.Follower" />
+        </set>
+        <set name="groupUsers" table="group_user" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.cooksys.facebook.model.GroupUser" />
+        </set>
+        <set name="followersForUserId" table="follower" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.cooksys.facebook.model.Follower" />
+        </set>
+        <set name="messages" table="message" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.cooksys.facebook.model.Message" />
+        </set>
+        <set name="tags" table="tag" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" />
+            </key>
+            <one-to-many class="com.cooksys.facebook.model.Tag" />
+        </set>
+    </class>
+</hibernate-mapping>

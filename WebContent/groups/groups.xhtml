@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head />
+<h:body>
+	<ui:composition template="/templates/common-layout.xhtml">
+		<ui:define name="head">
+			<title>Facebook Groups</title>
+		</ui:define>
+		<ui:define name="main">
+				<h:form id="groups">
+					<p />
+					<h:outputText value="Facebook Groups: " />
+					<p />
+					<ui:repeat value="#{groupListBean.groups}" var="group">
+						<p:fieldset style="margin-bottom:10px">
+							<p:panel>
+								<p:commandLink value="#{group.name}"
+									action="#{groupListBean.viewGroup(group)}" />
+							</p:panel>
+						</p:fieldset>
+					</ui:repeat>
+				</h:form>
+			</p:panel>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
